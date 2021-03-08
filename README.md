@@ -1,2 +1,2 @@
 # BooksToRead
-Desktop aplication to store books for future read
+I'm working on it...
