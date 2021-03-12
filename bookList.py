@@ -38,8 +38,9 @@ def addBook():
     cursor = connect.cursor()
 
     # Add book to the database
-    values = [ ( bookNameType.get(), authorNameType.get() ) ]
-    cursor.executemany("INSERT INTO bookList VALUES (?,?)", values)
+    if bookNameType.get() != '' and authorNameType.get() != '':
+        values = [ ( bookNameType.get(), authorNameType.get() ) ]
+        cursor.executemany("INSERT INTO bookList VALUES (?,?)", values)
 
     # Clear the entry box
     bookNameType.delete(0, END)
@@ -49,26 +50,67 @@ def addBook():
     connect.commit()
     connect.close()
 
-addButton = Button(root, text = 'ADD', fg = 'white', bg = 'green', command = addBook).grid(row = 2, column = 3)
+addButton = Button(root, text = 'ADD', fg = 'white', bg = 'green', command = addBook).grid(row = 2, column = 3, padx = 20)
+
+# Function to show the database
+def showList():
+    # Connect to the database
+    connect = sqlite3.connect('bookDatabase.db')
+    cursor = connect.cursor()
+
+    cursor.execute("SELECT * FROM bookList;")
+    output = cursor.fetchall()
+
+    increment = 1
+    startRow = 6
+
+    for x in output:
+        checkbox = Checkbutton(root, text = str(increment) ). grid(row = startRow, column = 0)
+        book = Label(root, text = x[0]).grid(row = startRow, column = 1)
+        author = Label(root, text = x[1]).grid(row = startRow, column = 2)
+        update = Button(root, text = 'CHANGE').grid(row = startRow, column = 3)
+
+        increment += 1
+        startRow += 1
+
+    # Commit and close the database
+    connect.commit()
+    connect.close()
+
+# Show the list
+showButton = Button(root, text = 'SHOW THE LIST', command = showList).grid(row = 3, column = 0, columnspan = 4, pady = 20)
+
+# Function to hide the database
+def hideList():
+    mainWidgets = [
+        '.!label', 
+        '.!label2', 
+        '.!label3', 
+        '.!entry', 
+        '.!entry2', 
+        '.!button', 
+        '.!button2', 
+        '.!button3'
+        ]
+
+    for widgets in root.winfo_children():
+        for main in mainWidgets:
+            if str(widgets) != main:
+                widgets.destroy()
+
+hideButton = Button(root, text = 'HIDE THE LIST', command = hideList).grid(row = 4, column = 0, columnspan = 4, pady = 20)
 
 # Delete button
-deleteButton = Button(root, text = 'DELETE', fg = 'white', bg = 'red').grid(row = 3, column = 0, columnspan = 4, pady = 20)
+deleteButton = Button(root, text = 'DELETE', fg = 'white', bg = 'red').grid(row = 5, column = 0, columnspan = 4, pady = 20)
 
+'''
 # Example data
-checkbox_0 = Checkbutton(root, text = '1'). grid(row = 4, column = 0)
-book_0 = Label(root, text = 'Harry Potter and The Half Blood Prince').grid(row = 4, column = 1)
-author_0 = Label(root, text = 'J.K.Rowling').grid(row = 4, column = 2)
-update_0 = Button(root, text = 'CHANGE').grid(row = 4, column = 3)
+checkbox_0 = Checkbutton(root, text = '1'). grid(row = 5, column = 0)
+book_0 = Label(root, text = 'Harry Potter and The Half Blood Prince').grid(row = 5, column = 1)
+author_0 = Label(root, text = 'J.K.Rowling').grid(row = 5, column = 2)
+update_0 = Button(root, text = 'CHANGE').grid(row = 5, column = 3)
+'''
 
-checkbox_1 = Checkbutton(root, text = '2'). grid(row = 5, column = 0)
-book_1 = Label(root, text = 'Harry Potter and The Half Blood Prince').grid(row = 5, column = 1)
-author_1 = Label(root, text = 'J.K.Rowling').grid(row = 5, column = 2)
-update_1 = Button(root, text = 'CHANGE').grid(row = 5, column = 3)
-
-checkbox_2 = Checkbutton(root, text = '3'). grid(row = 6, column = 0)
-book_2 = Label(root, text = 'Harry Potter and The Half Blood Prince').grid(row = 6, column = 1)
-author_2 = Label(root, text = 'J.K.Rowling').grid(row = 6, column = 2)
-update_2 = Button(root, text = 'CHANGE').grid(row = 6, column = 3)
 
 # ---------------------------------------------------------
 
