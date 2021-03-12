@@ -1,8 +1,20 @@
 from tkinter import *
+import sqlite3
 
 root = Tk()
 root.geometry('1400x700')
 root.title('Book List')
+# ---------------------------------------------------------
+
+# Create and connect to the database
+connect = sqlite3.connect('bookDatabase.db')
+cursor = connect.cursor()
+
+try:
+    cursor.execute("CREATE TABLE bookList (name text, author text);")
+except:
+    pass
+
 # ---------------------------------------------------------
 
 # Title
@@ -38,6 +50,12 @@ checkbox_2 = Checkbutton(root, text = '3'). grid(row = 6, column = 0)
 book_2 = Label(root, text = 'Harry Potter and The Half Blood Prince').grid(row = 6, column = 1)
 author_2 = Label(root, text = 'J.K.Rowling').grid(row = 6, column = 2)
 update_2 = Button(root, text = 'CHANGE').grid(row = 6, column = 3)
+
+# ---------------------------------------------------------
+
+# Commit and close the database
+connect.commit()
+connect.close()
 
 # ---------------------------------------------------------
 root.mainloop()
