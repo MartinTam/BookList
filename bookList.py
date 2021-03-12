@@ -11,7 +11,7 @@ connect = sqlite3.connect('bookDatabase.db')
 cursor = connect.cursor()
 
 try:
-    cursor.execute("CREATE TABLE bookList (name text, author text);")
+    cursor.execute("CREATE TABLE bookList (book text, author text);")
 except:
     pass
 
@@ -30,7 +30,26 @@ bookNameType.grid(row = 2, column = 1, padx = 50)
 authorNameType = Entry(root, width = 70)
 authorNameType.grid(row = 2, column = 2)
 
-addButton = Button(root, text = 'ADD', fg = 'white', bg = 'green').grid(row = 2, column = 3)
+# Function to add book to the database
+def addBook():
+
+    # Connect to the database
+    connect = sqlite3.connect('bookDatabase.db')
+    cursor = connect.cursor()
+
+    # Add book to the database
+    values = [ ( bookNameType.get(), authorNameType.get() ) ]
+    cursor.executemany("INSERT INTO bookList VALUES (?,?)", values)
+
+    # Clear the entry box
+    bookNameType.delete(0, END)
+    authorNameType.delete(0, END)
+
+    # Commit and close the database
+    connect.commit()
+    connect.close()
+
+addButton = Button(root, text = 'ADD', fg = 'white', bg = 'green', command = addBook).grid(row = 2, column = 3)
 
 # Delete button
 deleteButton = Button(root, text = 'DELETE', fg = 'white', bg = 'red').grid(row = 3, column = 0, columnspan = 4, pady = 20)
