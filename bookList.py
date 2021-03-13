@@ -76,7 +76,6 @@ def showList():
         checkbox = Label(listFrame, text = 'ID: ' + str(x[0]) ). grid(row = startRow, column = 0)
         book = Label(listFrame, text = x[1]).grid(row = startRow, column = 1)
         author = Label(listFrame, text = x[2]).grid(row = startRow, column = 2)
-        change = Button(listFrame, text = 'CHANGE').grid(row = startRow, column = 3)
 
         startRow += 1
 
@@ -107,8 +106,35 @@ def hideList():
 # Hide button
 hideButton = Button(root, text = 'HIDE THE LIST', state = DISABLED, command = hideList).grid(row = 4, column = 0, columnspan = 4, pady = 15)
 
+# Delete frame
+deleteFrame = LabelFrame(root, borderwidth = 0)
+deleteFrame.grid(row = 5, column = 0, columnspan = 4, pady = 15)
+
+# Delete box
+title = Label(deleteFrame, text = 'ID: ').grid(row = 0, column = 0)
+idBox = Entry(deleteFrame, width = 10)
+idBox.grid(row = 0, column = 1, padx = 10)
+
+# Function to delete book from the database
+def deleteBook():
+    # Connect to the database
+    connect = sqlite3.connect('bookDatabase.db')
+    cursor = connect.cursor()
+
+    try:
+        cursor.execute("DELETE FROM bookList WHERE rowid = ?;", [ int( idBox.get() ) ])    
+    except:
+        pass
+
+    # Clear the entry box
+    idBox.delete(0, END)
+
+    # Commit and close the database
+    connect.commit()
+    connect.close()
+
 # Delete button
-deleteButton = Button(root, text = 'DELETE', fg = 'white', bg = 'red').grid(row = 5, column = 0, columnspan = 4, pady = 15)
+deleteButton = Button(deleteFrame, text = 'DELETE', fg = 'white', bg = 'red', command = deleteBook).grid(row = 0, column = 2)
 
 # ---------------------------------------------------------
 
