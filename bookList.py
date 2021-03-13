@@ -50,6 +50,7 @@ def addBook():
     connect.commit()
     connect.close()
 
+# Add book to the database button
 addButton = Button(root, text = 'ADD', fg = 'white', bg = 'green', command = addBook).grid(row = 2, column = 3, padx = 20)
 
 # Frame to show database
@@ -97,7 +98,7 @@ def hideList():
     col_2 = Label(listFrame, text = '                                                                                                                                          ').grid(row = 0, column = 1, padx = 50)
     col_3 = Label(listFrame, text = '                                                                                                                                          ').grid(row = 0, column = 2)
 
-
+# Hide button
 hideButton = Button(root, text = 'HIDE THE LIST', command = hideList).grid(row = 4, column = 0, columnspan = 4, pady = 15)
 
 # Delete button
