@@ -60,30 +60,33 @@ col_1 = Label(listFrame, text = '  ').grid(row = 0, column = 0)
 col_2 = Label(listFrame, text = '                                                                                                                                          ').grid(row = 0, column = 1, padx = 50)
 col_3 = Label(listFrame, text = '                                                                                                                                          ').grid(row = 0, column = 2)
 
+
 # Function to show the database
 def showList():
     # Connect to the database
     connect = sqlite3.connect('bookDatabase.db')
     cursor = connect.cursor()
 
-    cursor.execute("SELECT * FROM bookList;")
+    cursor.execute("SELECT rowid, * FROM bookList;")
     output = cursor.fetchall()
 
-    increment = 1
     startRow = 1
 
     for x in output:
-        checkbox = Checkbutton(listFrame, text = str(increment) ). grid(row = startRow, column = 0)
-        book = Label(listFrame, text = x[0]).grid(row = startRow, column = 1)
-        author = Label(listFrame, text = x[1]).grid(row = startRow, column = 2)
+        checkbox = Label(listFrame, text = 'ID: ' + str(x[0]) ). grid(row = startRow, column = 0)
+        book = Label(listFrame, text = x[1]).grid(row = startRow, column = 1)
+        author = Label(listFrame, text = x[2]).grid(row = startRow, column = 2)
         change = Button(listFrame, text = 'CHANGE').grid(row = startRow, column = 3)
 
-        increment += 1
         startRow += 1
+
+    showButton = Button(root, text = 'SHOW THE LIST', state = DISABLED, command = showList).grid(row = 3, column = 0, columnspan = 4, pady = 15)
+    hideButton = Button(root, text = 'HIDE THE LIST', command = hideList).grid(row = 4, column = 0, columnspan = 4, pady = 15)
 
     # Commit and close the database
     connect.commit()
     connect.close()
+
 
 # Show the list
 showButton = Button(root, text = 'SHOW THE LIST', command = showList).grid(row = 3, column = 0, columnspan = 4, pady = 15)
@@ -98,8 +101,11 @@ def hideList():
     col_2 = Label(listFrame, text = '                                                                                                                                          ').grid(row = 0, column = 1, padx = 50)
     col_3 = Label(listFrame, text = '                                                                                                                                          ').grid(row = 0, column = 2)
 
+    showButton = Button(root, text = 'SHOW THE LIST', command = showList).grid(row = 3, column = 0, columnspan = 4, pady = 15)
+    hideButton = Button(root, text = 'HIDE THE LIST', state = DISABLED, command = hideList).grid(row = 4, column = 0, columnspan = 4, pady = 15)
+
 # Hide button
-hideButton = Button(root, text = 'HIDE THE LIST', command = hideList).grid(row = 4, column = 0, columnspan = 4, pady = 15)
+hideButton = Button(root, text = 'HIDE THE LIST', state = DISABLED, command = hideList).grid(row = 4, column = 0, columnspan = 4, pady = 15)
 
 # Delete button
 deleteButton = Button(root, text = 'DELETE', fg = 'white', bg = 'red').grid(row = 5, column = 0, columnspan = 4, pady = 15)
