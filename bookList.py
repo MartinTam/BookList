@@ -89,21 +89,9 @@ showButton = Button(root, text = 'SHOW THE LIST', command = showList).grid(row =
 
 # Function to hide the database
 def hideList():
-    mainWidgets = [
-        '.!label', 
-        '.!label2', 
-        '.!label3', 
-        '.!entry', 
-        '.!entry2', 
-        '.!button', 
-        '.!button2', 
-        '.!button3'
-        ]
 
     for widgets in listFrame.winfo_children():
-        for main in mainWidgets:
-            if str(widgets) != main:
-                widgets.destroy()
+        widgets.destroy()
 
     col_1 = Label(listFrame, text = '  ').grid(row = 0, column = 0)
     col_2 = Label(listFrame, text = '                                                                                                                                          ').grid(row = 0, column = 1, padx = 50)
@@ -114,15 +102,6 @@ hideButton = Button(root, text = 'HIDE THE LIST', command = hideList).grid(row =
 
 # Delete button
 deleteButton = Button(root, text = 'DELETE', fg = 'white', bg = 'red').grid(row = 5, column = 0, columnspan = 4, pady = 15)
-
-'''
-# Example data
-checkbox_0 = Checkbutton(root, text = '1'). grid(row = 5, column = 0)
-book_0 = Label(root, text = 'Harry Potter and The Half Blood Prince').grid(row = 5, column = 1)
-author_0 = Label(root, text = 'J.K.Rowling').grid(row = 5, column = 2)
-update_0 = Button(root, text = 'CHANGE').grid(row = 5, column = 3)
-'''
-
 
 # ---------------------------------------------------------
 
