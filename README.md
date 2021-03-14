@@ -1,5 +1,5 @@
 # BookList
-This is a desktop application to store books for future read.
+A desktop application to store books for future read.
 
 # Tools:
 Python 3.8.5, module Tkinter, SQLite3 database
