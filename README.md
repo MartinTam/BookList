@@ -1,5 +1,5 @@
 # BookList
-This is a desktop application to store books for future read. The reason for me to make this is because I myself am a big reader. Another reason is to practise Tkinter and SQLite3 database.
+This is a desktop application to store books for future read.
 
 # Tools:
 Python 3.8.5, module Tkinter, SQLite3 database
